@@ -1,0 +1,17 @@
+MoorDyn v2 log file with output level MSG at '../../MoorDyn/oc3.log'
+Generated entities:
+	nLineTypes  = 1
+	nRodTypes   = 0
+	nPoints     = 6
+	nBodies     = 0
+	nRods       = 0
+	nLines      = 3
+	nFails      = 0
+	nFreeBodies = 0
+	nFreeRods   = 0
+	nFreePoints  = 0
+	nCpldBodies = 0
+	nCpldRods   = 0
+	nCpldPoints = 3
+Time integrator = 2nd order Runge-Kutta
+No Waves or Currents, or set externally
