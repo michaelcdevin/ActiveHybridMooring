@@ -1,68 +1,68 @@
 #include <iostream>
-#include <sstream>
+#include <cmath>
 #include "Config.h"
 #include "MoorDyn2.hpp"
 
-using namespace moordyn;
+double amp = 5.0;
+double per = 20;
+inline constexpr double pi = 3.14159265358979323846;
 
-int main(int, char**)
-{
+int main(int, char**) {
     // define system
-    auto system = new MoorDyn("../../MoorDyn/oc3.txt");
+    auto system = new moordyn::MoorDyn("../../MoorDyn/oc3.txt");
     if (!system)
         return 1;
     
-    // get general system properties
+    // get general system definitions
     auto points = system->GetPoints();
     int num_points = points.size();
     auto lines = system->GetLines();
     int num_lines = lines.size();
+    const int ndof = system->NCoupledDOF();
+    double x[ndof], xd[ndof], f[ndof];
 
-    // 3 components per point
-    double x[system->NCoupledDOF()], xd[system->NCoupledDOF()];
+    // initial positions -- this ideally would be read from the input file TODO
+    x[0] = 5.2;     // xl
+    x[1] = 0.0;     // y1
+    x[2] = -70.0;   // z1
+    x[3] = -2.6;    // x2
+    x[4] = 4.5;     // y2
+    x[5] = -70.0;   // z2
+    x[6] = -2.6;    // x3
+    x[7] = -4.5;    // y3
+    x[8] = -70.0;   // z3
 
     // initial velocity is zero
     memset(xd, 0.0, sizeof(double));
-
-    // get the initial positions
-    for (unsigned int i = 0; i < num_points; i++) {
-
-    }
-    // Setup the initial condition
+    
+    // Setup for time series simulation
     int err = system->Init(x, xd);
     if (err != MOORDYN_SUCCESS) {
-        MoorDynClose();
+        err = MoorDynClose();
         return 1;
     }
 
-    // Make the points move at 0.5 m/s to the positive x direction
-    for (unsigned int i = 0; i < 3; i++)
-        xd[3 * i] = 0.5;
-    double t = 0.0, dt = 0.5;
-    double f[9];
-    err = system->Step(x, xd, f, t, dt);
-    if (err != MOORDYN_SUCCESS) {
-        MoorDynClose();
-        return 1;
-    }
-
-    // Print the position and tension of the line nodes
-    
-    for (unsigned int i = 0; i < lines.size(); i++) {
-        Line line = *lines[i];
-        const unsigned int line_id = i + 1;
-        std::cout << "Line " << line.lineId << "\n";
-        std::cout << "=======" << std::endl;
-        unsigned int n_nodes = line.getN() + 1;
-        for (unsigned int j = 0; j < n_nodes; j++) {
-            std::cout << "  node " << j << ":" << std::endl;
-            vec pos = line.getNodePos(j);
-            std::cout << "  pos = [" << pos << "]" << std::endl;
-            vec ten = line.getNodeTen(j);
-            std::cout << "  ten = [" << ten << "]" << std::endl;
+    double t_start = 0.0, dt = 0.05, t_end = 1.0;
+    // TIME MARCHING: move points along sine wave and print all tensions at the fairleads
+    int const node = 10;
+    moordyn::vec pos;
+    for (double t = t_start; t <= t_end; t += dt) {
+        for (unsigned int i = 0; i < 3; i++) {
+            x[3 * i] += amp * sin(2*pi / per * t);
         }
-    }
+        err = system->Step(x, xd, f, t, dt);
+        if (err != MOORDYN_SUCCESS) {
+            MoorDynClose();
+            return 1;
+        }
+        
+        for (size_t i=0; i < ndof; i++) {
+            std::cout << f[i] << "\t";
+        }
+        std::cout << std::endl;
 
+    }
+    
     // Close program
     err = MoorDynClose();
     if (err != MOORDYN_SUCCESS)
