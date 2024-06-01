@@ -1,0 +1,342 @@
+/*
+ * sfuntmpl_basic.c: Basic 'C' template for a level 2 S-function.
+ *
+ * Copyright 1990-2018 The MathWorks, Inc.
+ */
+
+
+/*
+ * You must specify the S_FUNCTION_NAME as the name of your S-function
+ * (i.e. replace sfuntmpl_basic with the name of your S-function).
+ */
+
+#define S_FUNCTION_NAME  sfuntmpl_basic
+#define S_FUNCTION_LEVEL 2
+
+/*
+ * Need to include simstruc.h for the definition of the SimStruct and
+ * its associated macro definitions.
+ */
+#include "simstruc.h"
+#include "MoorDyn2.hpp"
+
+
+#define PARAM_FILENAME 0
+#define PARAM_DT 1
+#define PARAM_TMAX 2
+#define NUM_PARAM 3
+#define CHANNEL_LENGTH 20
+
+// two DWork arrays:
+#define WORKARY_OUTPUT 0
+#define WORKARY_INPUT 1
+
+
+static int ndof = 0;
+static double dt = 0;
+static double TMax = 0;
+static int NumInputs = 1;
+static int NumOutputs = 1;
+static char InputFileName[INTERFACE_STRING_LENGTH];
+static int err = 0;
+static char err_msg[INTERFACE_STRING_LENGTH];
+static int n_t_global = -1;  // counter to determine which fixed-step simulation time we are at currently (start at -1 for initialization)
+
+// function definitions
+static int checkError(SimStruct *S);
+static void mdlTerminate(SimStruct *S); // defined here so I can call it from checkError
+static void getInputs(SimStruct *S, double *InputAry);
+static void setOutputs(SimStruct *S, double *OutputAry);
+
+auto system = new moordyn::MoorDyn();
+
+/* Error handling
+ * --------------
+ *
+ * You should use the following technique to report errors encountered within
+ * an S-function:
+ *
+ *       ssSetErrorStatus(S,"Error encountered due to ...");
+ *       return;
+ *
+ * Note that the 2nd argument to ssSetErrorStatus must be persistent memory.
+ * It cannot be a local variable. For example the following will cause
+ * unpredictable errors:
+ *
+ *      mdlOutputs()
+ *      {
+ *         char msg[256];         {ILLEGAL: to fix use "static char msg[256];"}
+ *         sprintf(msg,"Error due to %s", string);
+ *         ssSetErrorStatus(S,msg);
+ *         return;
+ *      }
+ *
+ */
+
+static int checkError(SimStruct *S) {
+    if (err >= MOORDYN_SUCCESS) {
+        ssPrintf("\n");
+        strcpy(err_msg, "MoorDyn exited with error.");
+        ssSetErrorStatus(S, err_msg);
+        mdlTerminate(S);  // terminate on error (in case Simulink doesn't do so itself)
+        return 1;
+    }
+    return 0;
+}
+
+static void getInputs(SimStruct *S, double *InputAry) {
+   int k;
+   InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(S, 0);
+
+   for (k = 0; k < ssGetDWorkWidth(S, WORKARY_INPUT); k++) {
+      InputAry[k] = (double)(*uPtrs[k]);
+   }
+}
+
+static void setOutputs(SimStruct *S, double *OutputAry) {
+   int k;
+   double *y = ssGetOutputPortRealSignal(S, 0);
+
+   for (k = 0; k < ssGetOutputPortWidth(S, WORKARY_OUTPUT); k++) {
+      y[k] = OutputAry[k];
+   }
+}
+
+/*====================*
+ * S-function methods *
+ *====================*/
+
+/* Function: mdlInitializeSizes ===============================================
+ * Abstract:
+ *    The sizes information is used by Simulink to determine the S-function
+ *    block's characteristics (number of inputs, outputs, states, etc.).
+ */
+static void mdlInitializeSizes(SimStruct *S)
+{
+    static char ChannelNames[CHANNEL_LENGTH * MAXIMUM_OUTPUTS + 1];
+
+    if (n_t_global == -1) {
+        ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
+        if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
+            /* Return if number of expected != number of actual parameters */
+            return;
+        }
+
+        // Get parameters from user-inputted block parameters (should not change during simulation)
+        ssSetSFcnParamTunable(S, PARAM_FILENAME, SS_PRM_NOT_TUNABLE); 
+        mxGetString(ssGetSFcnParam(S, PARAM_FILENAME), InputFileName, INTERFACE_STRING_LENGTH);
+
+        ssSetSFcnParamTunable(S, PARAM_DT, SS_PRM_NOT_TUNABLE); 
+        dt = mxGetScalar(ssGetSFcnParam(S, PARAM_DT));
+
+        ssSetSFcnParamTunable(S, PARAM_TMAX, SS_PRM_NOT_TUNABLE); 
+        TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
+
+        // Initialize mooring system
+        system = new moordyn::MoorDyn(InputFileName);
+        if (checkError(S)) return;
+
+        // MCD: I don't think I need this, but still not entirely sure TODO
+        // set DT in the Matlab workspace (necessary for Simulink block solver options)
+        // pm = mxCreateDoubleScalar(dt);
+        // err = mexPutVariable("base", "DT", pm);
+        // mxDestroyArray(pm);
+        // if (checkError(S)) return;
+
+        ssSetNumContStates(S, 0);
+        ssSetNumDiscStates(S, 0);
+
+        if (!ssSetNumInputPorts(S, 1)) return;
+        ssSetInputPortWidth(S, 0, NumInputs);
+        // ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
+        
+        /*
+        * Set direct feedthrough flag (1=yes, 0=no).
+        * A port has direct feedthrough if the input is used in either
+        * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
+        */
+        ssSetInputPortDirectFeedThrough(S, 0, 0); // no direct feedthrough because we're just putting everything in one update routine (acting like a discrete system)
+
+        if (!ssSetNumOutputPorts(S, 1)) return;
+        ssSetOutputPortWidth(S, 0, NumOutputs);
+
+        ssSetNumSampleTimes(S, 1);
+        ssSetNumRWork(S, 0);
+        ssSetNumIWork(S, 0);
+        ssSetNumPWork(S, 0);
+        ssSetNumModes(S, 0);
+        ssSetNumNonsampledZCs(S, 0);
+
+        /* Specify the operating point save/restore compliance to be same as a 
+        * built-in block */
+        ssSetOperatingPointCompliance(S, USE_DEFAULT_OPERATING_POINT);
+
+        ssSetRuntimeThreadSafetyCompliance(S, RUNTIME_THREAD_SAFETY_COMPLIANCE_TRUE);
+        ssSetOptions(S, SS_OPTION_EXCEPTION_FREE_CODE);
+    }
+}
+
+
+
+/* Function: mdlInitializeSampleTimes =========================================
+ * Abstract:
+ *    This function is used to specify the sample time(s) for your
+ *    S-function. You must register the same number of sample times as
+ *    specified in ssSetNumSampleTimes.
+ */
+static void mdlInitializeSampleTimes(SimStruct *S)
+{
+    ssSetSampleTime(S, 0, dt);
+    ssSetOffsetTime(S, 0, 0.0);
+
+    ssSetModelReferenceSampleTimeDefaultInheritance(S);
+}
+
+
+
+#undef MDL_INITIALIZE_CONDITIONS   /* Change to #undef to remove function */
+#if defined(MDL_INITIALIZE_CONDITIONS)
+  /* Function: mdlInitializeConditions ========================================
+   * Abstract:
+   *    In this function, you should initialize the continuous and discrete
+   *    states for your S-function block.  The initial states are placed
+   *    in the state vector, ssGetContStates(S) or ssGetRealDiscStates(S).
+   *    You can also perform any other initialization activities that your
+   *    S-function may require. Note, this routine will be called at the
+   *    start of simulation and if it is present in an enabled subsystem
+   *    configured to reset states, it will be call when the enabled subsystem
+   *    restarts execution to reset the states.
+   */
+  static void mdlInitializeConditions(SimStruct *S)
+  {
+  }
+#endif /* MDL_INITIALIZE_CONDITIONS */
+
+
+
+#define MDL_START  /* Change to #undef to remove function */
+#if defined(MDL_START) 
+  /* Function: mdlStart =======================================================
+   * Abstract:
+   *    This function is called once at start of model execution. If you
+   *    have states that should be initialized once, this is the place
+   *    to do it.
+   */
+  static void mdlStart(SimStruct *S)
+  {
+    double *InputAry = (double *)ssGetDWork(S, WORKARY_INPUT); //malloc(NumInputs*sizeof(double));   
+    double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
+    if (n_t_global == -1){
+        // get general system definitions
+        ndof = system->NCoupledDOF();
+
+        auto points = system->GetPoints();
+        auto lines = system->GetLines();
+        int num_lines = lines.size();
+        double x[ndof], xd[ndof];
+
+        // get initial points
+        for (size_t i=0; i < num_lines; i++) {
+            auto init_pts = points[i*2]->getPosition(); // even #s are partition pts, odd #s are anchors
+            x[i*3] = static_cast<double>(init_pts[0]);
+            x[i*3+1] = static_cast<double>(init_pts[1]);
+            x[i*3+2] = static_cast<double>(init_pts[2]);
+        }
+         // initial velocity is zero
+        memset(xd, 0.0, sizeof(double));
+        
+        // Setup for time series simulation
+        int err = system->Init(x, xd);
+        if (checkError(S)) return;
+        n_t_global = 0;
+    }
+  }
+#endif /*  MDL_START */
+
+
+
+/* Function: mdlOutputs =======================================================
+ * Abstract:
+ *    In this function, you compute the outputs of your S-function
+ *    block.
+ */
+static void mdlOutputs(SimStruct *S, int_T tid)
+{
+    double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
+    setOutputs(S, OutputAry)
+}
+
+
+
+#define MDL_UPDATE  /* Change to #undef to remove function */
+#if defined(MDL_UPDATE)
+  /* Function: mdlUpdate ======================================================
+   * Abstract:
+   *    This function is called once for every major integration time step.
+   *    Discrete states are typically updated here, but this function is useful
+   *    for performing any tasks that should only take place once per
+   *    integration step.
+   */
+  static void mdlUpdate(SimStruct *S, int_T tid)
+  {
+    double *InputAry  = (double *)ssGetDWork(S, WORKARY_INPUT);
+    double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
+
+    getInputs(S, InputAry);
+    ndof = system
+    double x[ndof], xd[ndof];
+    std::copy(InputAry.begin(), InputAry.begin() + ndof, x.begin());
+    std::copy(InputAry.begin() + ndof + 1, InputAry.end() + ndof, xd.begin());
+    err = system->Step(x, xd, OutputAry, n_t_global, dt); // TODO: update input arguments to be stuff read by Simulink
+    n_t_global = n_t_global + 1;
+
+    if (checkError(S)) return;
+
+    setOutputs(S, OutputAry);
+  }
+#endif /* MDL_UPDATE */
+
+
+
+#undef MDL_DERIVATIVES  /* Change to #undef to remove function */
+#if defined(MDL_DERIVATIVES)
+  /* Function: mdlDerivatives =================================================
+   * Abstract:
+   *    In this function, you compute the S-function block's derivatives.
+   *    The derivatives are placed in the derivative vector, ssGetdX(S).
+   */
+  static void mdlDerivatives(SimStruct *S)
+  {
+  }
+#endif /* MDL_DERIVATIVES */
+
+
+
+/* Function: mdlTerminate =====================================================
+ * Abstract:
+ *    In this function, you should perform any actions that are necessary
+ *    at the termination of a simulation.  For example, if memory was
+ *    allocated in mdlStart, this is the place to free it.
+ */
+static void mdlTerminate(SimStruct *S)
+{
+  if (n_t_global > -1) {
+    err = MoorDynClose();
+    n_t_global = -1;
+  }
+  if (err != MOORDYN_SUCCESS)
+      return 1;
+
+  return 0;
+}
+
+
+/*=============================*
+ * Required S-function trailer *
+ *=============================*/
+
+#ifdef  MATLAB_MEX_FILE    /* Is this file being compiled as a MEX-file? */
+#include "simulink.c"      /* MEX-file interface mechanism */
+#else
+#include "cg_sfun.h"       /* Code generation registration function */
+#endif
