@@ -10,7 +10,7 @@
  * (i.e. replace sfuntmpl_basic with the name of your S-function).
  */
 
-#define S_FUNCTION_NAME  sfuntmpl_basic
+#define S_FUNCTION_NAME  MoorDyn_SFunc
 #define S_FUNCTION_LEVEL 2
 
 /*
@@ -18,6 +18,9 @@
  * its associated macro definitions.
  */
 #include "simstruc.h"
+#include "mex.hpp"
+// #include "matrix.hpp"  // for mxCreateDoubleScalar
+#include "mexAdapter.hpp"
 #include "MoorDyn2.hpp"
 
 
@@ -263,7 +266,7 @@ static void mdlInitializeSampleTimes(SimStruct *S)
 static void mdlOutputs(SimStruct *S, int_T tid)
 {
     double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
-    setOutputs(S, OutputAry)
+    setOutputs(S, OutputAry);
 }
 
 
@@ -283,11 +286,10 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
 
     getInputs(S, InputAry);
-    ndof = system
     double x[ndof], xd[ndof];
     std::copy(InputAry.begin(), InputAry.begin() + ndof, x.begin());
     std::copy(InputAry.begin() + ndof + 1, InputAry.end() + ndof, xd.begin());
-    err = system->Step(x, xd, OutputAry, n_t_global, dt); // TODO: update input arguments to be stuff read by Simulink
+    err = system->Step(x, xd, OutputAry, n_t_global, dt);
     n_t_global = n_t_global + 1;
 
     if (checkError(S)) return;
