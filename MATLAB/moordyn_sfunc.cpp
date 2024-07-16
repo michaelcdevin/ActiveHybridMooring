@@ -18,9 +18,9 @@
  * its associated macro definitions.
  */
 #include "simstruc.h"
-#include "mex.hpp"
+// #include "mex.hpp"
 // #include "matrix.hpp"  // for mxCreateDoubleScalar
-#include "mexAdapter.hpp"
+// #include "mexAdapter.hpp"
 #include "MoorDyn2.hpp"
 
 
@@ -29,6 +29,8 @@
 #define PARAM_TMAX 2
 #define NUM_PARAM 3
 #define CHANNEL_LENGTH 20
+#define INTERFACE_STRING_LENGTH 1025
+#define MAXIMUM_OUTPUTS 4000
 
 // two DWork arrays:
 #define WORKARY_OUTPUT 0
@@ -43,7 +45,7 @@ static int NumOutputs = 1;
 static char InputFileName[INTERFACE_STRING_LENGTH];
 static int err = 0;
 static char err_msg[INTERFACE_STRING_LENGTH];
-static int n_t_global = -1;  // counter to determine which fixed-step simulation time we are at currently (start at -1 for initialization)
+double t = -1;  // start at -1 for initialization
 
 // function definitions
 static int checkError(SimStruct *S);
@@ -51,7 +53,7 @@ static void mdlTerminate(SimStruct *S); // defined here so I can call it from ch
 static void getInputs(SimStruct *S, double *InputAry);
 static void setOutputs(SimStruct *S, double *OutputAry);
 
-auto system = new moordyn::MoorDyn();
+auto mdSystem = new moordyn::MoorDyn();
 
 /* Error handling
  * --------------
@@ -116,14 +118,10 @@ static void setOutputs(SimStruct *S, double *OutputAry) {
  */
 static void mdlInitializeSizes(SimStruct *S)
 {
-    static char ChannelNames[CHANNEL_LENGTH * MAXIMUM_OUTPUTS + 1];
+    static char ChannelNames[CHANNEL_LENGTH *  + 1];
 
-    if (n_t_global == -1) {
+    if (t == -1) {
         ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
-        if (ssGetNumSFcnParams(S) != ssGetSFcnParamsCount(S)) {
-            /* Return if number of expected != number of actual parameters */
-            return;
-        }
 
         // Get parameters from user-inputted block parameters (should not change during simulation)
         ssSetSFcnParamTunable(S, PARAM_FILENAME, SS_PRM_NOT_TUNABLE); 
@@ -136,7 +134,7 @@ static void mdlInitializeSizes(SimStruct *S)
         TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
 
         // Initialize mooring system
-        system = new moordyn::MoorDyn(InputFileName);
+        mdSystem = new moordyn::MoorDyn(InputFileName);
         if (checkError(S)) return;
 
         // MCD: I don't think I need this, but still not entirely sure TODO
@@ -229,12 +227,12 @@ static void mdlInitializeSampleTimes(SimStruct *S)
   {
     double *InputAry = (double *)ssGetDWork(S, WORKARY_INPUT); //malloc(NumInputs*sizeof(double));   
     double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
-    if (n_t_global == -1){
+    if (t == -1){
         // get general system definitions
-        ndof = system->NCoupledDOF();
+        ndof = mdSystem->NCoupledDOF();
 
-        auto points = system->GetPoints();
-        auto lines = system->GetLines();
+        auto points = mdSystem->GetPoints();
+        auto lines = mdSystem->GetLines();
         int num_lines = lines.size();
         double x[ndof], xd[ndof];
 
@@ -249,9 +247,9 @@ static void mdlInitializeSampleTimes(SimStruct *S)
         memset(xd, 0.0, sizeof(double));
         
         // Setup for time series simulation
-        int err = system->Init(x, xd);
+        int err = mdSystem->Init(x, xd);
         if (checkError(S)) return;
-        n_t_global = 0;
+        t = 0;
     }
   }
 #endif /*  MDL_START */
@@ -287,10 +285,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     getInputs(S, InputAry);
     double x[ndof], xd[ndof];
-    std::copy(InputAry.begin(), InputAry.begin() + ndof, x.begin());
-    std::copy(InputAry.begin() + ndof + 1, InputAry.end() + ndof, xd.begin());
-    err = system->Step(x, xd, OutputAry, n_t_global, dt);
-    n_t_global = n_t_global + 1;
+    
+    std::copy(InputAry, InputAry + ndof, x);
+    std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
+    err = mdSystem->Step(x, xd, OutputAry, t, dt);
+    t += dt;
 
     if (checkError(S)) return;
 
@@ -322,14 +321,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
  */
 static void mdlTerminate(SimStruct *S)
 {
-  if (n_t_global > -1) {
-    err = MoorDynClose();
-    n_t_global = -1;
+  if (t > -1) {
+    MoorDynClose();
+    t = -1;
   }
-  if (err != MOORDYN_SUCCESS)
-      return 1;
-
-  return 0;
+  return;
 }
 
 
