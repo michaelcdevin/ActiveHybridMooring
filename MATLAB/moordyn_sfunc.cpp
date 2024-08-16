@@ -120,7 +120,6 @@ static void setOutputs(SimStruct *S, double *OutputAry) {
 static void mdlInitializeSizes(SimStruct *S)
 {
     static char ChannelNames[CHANNEL_LENGTH *  + 1];
-    ssPrintf("in mdlInitializeSizes\n");
     if (t == -1) {
         ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
 
@@ -131,15 +130,12 @@ static void mdlInitializeSizes(SimStruct *S)
         ssSetSFcnParamTunable(S, PARAM_DT, SS_PRM_NOT_TUNABLE); 
         dt = mxGetScalar(ssGetSFcnParam(S, PARAM_DT));
 
-        ssPrintf("getting tmax\n");
         ssSetSFcnParamTunable(S, PARAM_TMAX, SS_PRM_NOT_TUNABLE); 
         TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
 
         // Initialize mooring system
-        ssPrintf("setting mdSystem\n");
         mdSystem = new moordyn::MoorDyn(InputFileName);
         if (checkError(S)) return;
-        ssPrintf("after setting mdSystem\n");
 
         // MCD: I don't think I need this, but still not entirely sure TODO
         // set DT in the Matlab workspace (necessary for Simulink block solver options)
@@ -150,7 +146,6 @@ static void mdlInitializeSizes(SimStruct *S)
 
         ssSetNumContStates(S, 0);
         ssSetNumDiscStates(S, 0);
-
         if (!ssSetNumInputPorts(S, 1)) return;
         ssSetInputPortWidth(S, 0, NumInputs);
         // ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
@@ -172,6 +167,14 @@ static void mdlInitializeSizes(SimStruct *S)
         ssSetNumModes(S, 0);
         ssSetNumNonsampledZCs(S, 0);
 
+        if(!ssSetNumDWork(   S, 2)) return;
+
+        ssSetDWorkWidth(   S, WORKARY_OUTPUT, ssGetOutputPortWidth(S, 0));
+        ssSetDWorkDataType(S, WORKARY_OUTPUT, SS_DOUBLE); /* use SS_DOUBLE if needed */
+
+        ssSetDWorkWidth(   S, WORKARY_INPUT, ssGetInputPortWidth(S, 0));
+        ssSetDWorkDataType(S, WORKARY_INPUT, SS_DOUBLE);
+
         /* Specify the operating point save/restore compliance to be same as a 
         * built-in block */
         ssSetOperatingPointCompliance(S, USE_DEFAULT_OPERATING_POINT);
@@ -191,7 +194,6 @@ static void mdlInitializeSizes(SimStruct *S)
  */
 static void mdlInitializeSampleTimes(SimStruct *S)
 {
-    ssPrintf("in mdlInitializeSampleTimes");
     ssSetSampleTime(S, 0, dt);
     ssSetOffsetTime(S, 0, 0.0);
 
@@ -233,6 +235,7 @@ static void mdlInitializeSampleTimes(SimStruct *S)
     double *InputAry = (double *)ssGetDWork(S, WORKARY_INPUT); //malloc(NumInputs*sizeof(double));   
     double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
     if (t == -1){
+        
         // get general system definitions
         ndof = mdSystem->NCoupledDOF();
 
@@ -289,15 +292,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     double *OutputAry = (double *)ssGetDWork(S, WORKARY_OUTPUT);
 
     getInputs(S, InputAry);
+
     double x[ndof], xd[ndof];
-    
     std::copy(InputAry, InputAry + ndof, x);
     std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
+
     err = mdSystem->Step(x, xd, OutputAry, t, dt);
     t += dt;
 
     if (checkError(S)) return;
-
     setOutputs(S, OutputAry);
   }
 #endif /* MDL_UPDATE */
