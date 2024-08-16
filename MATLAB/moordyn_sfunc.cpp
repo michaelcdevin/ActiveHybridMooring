@@ -41,8 +41,8 @@
 static int ndof = 0;
 static double dt = 0;
 static double TMax = 0;
-static int NumInputs = 6;
-static int NumOutputs = 6;
+static int NumInputs = 9;
+static int NumOutputs = 9;
 static char InputFileName[INTERFACE_STRING_LENGTH];
 static int err = 0;
 static char err_msg[INTERFACE_STRING_LENGTH];
@@ -295,7 +295,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     double x[ndof], xd[ndof];
     std::copy(InputAry, InputAry + ndof, x);
-    std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
+    // std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
 
     err = mdSystem->Step(x, xd, OutputAry, t, dt);
     t += dt;
