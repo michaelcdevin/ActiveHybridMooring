@@ -10,9 +10,11 @@
  * (i.e. replace sfuntmpl_basic with the name of your S-function).
  */
 
-#define S_FUNCTION_NAME  MoorDyn_SFunc
 #define S_FUNCTION_LEVEL 2
 
+#ifndef S_FUNCTION_NAME
+#define S_FUNCTION_NAME  MoorDyn_SFunc
+#endif
 /*
  * Need to include simstruc.h for the definition of the SimStruct and
  * its associated macro definitions.
@@ -36,12 +38,11 @@
 #define WORKARY_OUTPUT 0
 #define WORKARY_INPUT 1
 
-
 static int ndof = 0;
 static double dt = 0;
 static double TMax = 0;
-static int NumInputs = 1;
-static int NumOutputs = 1;
+static int NumInputs = 6;
+static int NumOutputs = 6;
 static char InputFileName[INTERFACE_STRING_LENGTH];
 static int err = 0;
 static char err_msg[INTERFACE_STRING_LENGTH];
@@ -53,7 +54,7 @@ static void mdlTerminate(SimStruct *S); // defined here so I can call it from ch
 static void getInputs(SimStruct *S, double *InputAry);
 static void setOutputs(SimStruct *S, double *OutputAry);
 
-auto mdSystem = new moordyn::MoorDyn();
+moordyn::MoorDyn* mdSystem;
 
 /* Error handling
  * --------------
@@ -79,9 +80,9 @@ auto mdSystem = new moordyn::MoorDyn();
  */
 
 static int checkError(SimStruct *S) {
-    if (err >= MOORDYN_SUCCESS) {
+    if (err > MOORDYN_SUCCESS) {
         ssPrintf("\n");
-        strcpy(err_msg, "MoorDyn exited with error.");
+        // strcpy(err_msg, "MoorDyn exited with error.");
         ssSetErrorStatus(S, err_msg);
         mdlTerminate(S);  // terminate on error (in case Simulink doesn't do so itself)
         return 1;
@@ -119,7 +120,7 @@ static void setOutputs(SimStruct *S, double *OutputAry) {
 static void mdlInitializeSizes(SimStruct *S)
 {
     static char ChannelNames[CHANNEL_LENGTH *  + 1];
-
+    ssPrintf("in mdlInitializeSizes\n");
     if (t == -1) {
         ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
 
@@ -130,12 +131,15 @@ static void mdlInitializeSizes(SimStruct *S)
         ssSetSFcnParamTunable(S, PARAM_DT, SS_PRM_NOT_TUNABLE); 
         dt = mxGetScalar(ssGetSFcnParam(S, PARAM_DT));
 
+        ssPrintf("getting tmax\n");
         ssSetSFcnParamTunable(S, PARAM_TMAX, SS_PRM_NOT_TUNABLE); 
         TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
 
         // Initialize mooring system
+        ssPrintf("setting mdSystem\n");
         mdSystem = new moordyn::MoorDyn(InputFileName);
         if (checkError(S)) return;
+        ssPrintf("after setting mdSystem\n");
 
         // MCD: I don't think I need this, but still not entirely sure TODO
         // set DT in the Matlab workspace (necessary for Simulink block solver options)
@@ -187,6 +191,7 @@ static void mdlInitializeSizes(SimStruct *S)
  */
 static void mdlInitializeSampleTimes(SimStruct *S)
 {
+    ssPrintf("in mdlInitializeSampleTimes");
     ssSetSampleTime(S, 0, dt);
     ssSetOffsetTime(S, 0, 0.0);
 

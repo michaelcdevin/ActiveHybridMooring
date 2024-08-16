@@ -6,4 +6,4 @@ MD_InputFileName = '../MoorDyn/ahm_3dof.txt';
 dt               = 0.01; % seconds
 TMax             = 60; % seconds
 
-sim('../Simulink/AHM_loop.slx',[0,TMax]);
+sim('../Simulink/AHM_loop.slx');
