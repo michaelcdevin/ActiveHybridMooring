@@ -41,7 +41,7 @@
 static int ndof = 0;
 static double dt = 0;
 static double TMax = 0;
-static int NumInputs = 9;
+static int NumInputs = 18;
 static int NumOutputs = 9;
 static char InputFileName[INTERFACE_STRING_LENGTH];
 static int err = 0;
@@ -82,7 +82,7 @@ moordyn::MoorDyn* mdSystem;
 static int checkError(SimStruct *S) {
     if (err > MOORDYN_SUCCESS) {
         ssPrintf("\n");
-        // strcpy(err_msg, "MoorDyn exited with error.");
+        strcpy(err_msg, "MoorDyn exited with error.");
         ssSetErrorStatus(S, err_msg);
         mdlTerminate(S);  // terminate on error (in case Simulink doesn't do so itself)
         return 1;
@@ -238,7 +238,7 @@ static void mdlInitializeSampleTimes(SimStruct *S)
         
         // get general system definitions
         ndof = mdSystem->NCoupledDOF();
-
+        const char ndof_char = static_cast<char>(ndof);
         auto points = mdSystem->GetPoints();
         auto lines = mdSystem->GetLines();
         int num_lines = lines.size();
@@ -295,7 +295,7 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     double x[ndof], xd[ndof];
     std::copy(InputAry, InputAry + ndof, x);
-    // std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
+    std::copy(InputAry + ndof + 1, InputAry + 2*ndof, xd);
 
     err = mdSystem->Step(x, xd, OutputAry, t, dt);
     t += dt;
