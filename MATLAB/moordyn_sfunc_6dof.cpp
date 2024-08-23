@@ -41,8 +41,8 @@
 static int ndof = 0;
 static double dt = 0;
 static double TMax = 0;
-static int NumInputs = 18;
-static int NumOutputs = 9;
+static int NumInputs = 36;
+static int NumOutputs = 18;
 static char InputFileName[INTERFACE_STRING_LENGTH];
 static int err = 0;
 static char err_msg[INTERFACE_STRING_LENGTH];
@@ -238,19 +238,28 @@ static void mdlInitializeSampleTimes(SimStruct *S)
         
         // get general system definitions
         ndof = mdSystem->NCoupledDOF();
-        const char ndof_char = static_cast<char>(ndof);
-        auto points = mdSystem->GetPoints();
-        auto lines = mdSystem->GetLines();
-        int num_lines = lines.size();
         double x[ndof], xd[ndof];
 
-        // get initial points
-        for (size_t i=0; i < num_lines; i++) {
-            auto init_pts = points[i*2]->getPosition(); // even #s are partition pts, odd #s are anchors
-            x[i*3] = static_cast<double>(init_pts[0]);
-            x[i*3+1] = static_cast<double>(init_pts[1]);
-            x[i*3+2] = static_cast<double>(init_pts[2]);
-        }
+        // initial positions -- this ideally would be read from the input file TODO
+        x[0] =  -407.060;
+        x[1] =     0.000;
+        x[2] =  -446.000;
+        x[3] =     0.000;
+        x[4] =     0.000;
+        x[5] =   180.000;
+        x[6] =   148.490;
+        x[7] =   387.691;
+        x[8] =  -446.000;
+        x[9] =     0.000;
+        x[10] =    0.000;
+        x[11] =   60.000;
+        x[12] =  148.490;
+        x[13] = -387.691;
+        x[14] = -446.000;
+        x[15] =    0.000;
+        x[16] =    0.000;
+        x[17] =  -60.000;
+
          // initial velocity is zero
         memset(xd, 0.0, sizeof(double));
         
