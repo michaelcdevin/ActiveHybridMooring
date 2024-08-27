@@ -241,19 +241,19 @@ static void mdlInitializeSampleTimes(SimStruct *S)
         double x[ndof], xd[ndof];
 
         // initial positions -- this ideally would be read from the input file TODO
-        x[0] =  -407.060;
+        x[0] =  -406.060;
         x[1] =     0.000;
         x[2] =  -446.000;
         x[3] =     0.000;
         x[4] =     0.000;
         x[5] =   180.000;
-        x[6] =   148.490;
+        x[6] =   147.490;
         x[7] =   387.691;
         x[8] =  -446.000;
         x[9] =     0.000;
         x[10] =    0.000;
         x[11] =   60.000;
-        x[12] =  148.490;
+        x[12] =  147.490;
         x[13] = -387.691;
         x[14] = -446.000;
         x[15] =    0.000;
