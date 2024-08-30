@@ -5,21 +5,33 @@ FALSE    Echo      - echo the input file data (flag)
 Name  Diam  MassDen  EA       BA/-zeta  EI    Cd    Ca    CdAx   CaAx
 (-)   (m)   (kg/m)   (N)      (N-s/-)   (-)   (-)   (-)   (-)    (-)
 main  0.333  385.00  4.365E+07  -1.0      0    2.0   0.82  0.4    0.27
+---------------------- BODIES ---------------------------------------
+ID   Attachment     X0         Y0         Z0      r0     p0     y0   Mass   CG*   I*      Volume   CdA*   Ca*
+(#)   (word)        (m)        (m)        (m)   (deg)  (deg)  (deg)  (kg)   (m)  (kg-m^2)  (m^3)   (m^2)  (-)
+1     Free    -406.060     0.000   -446.000     0      0    180.000     385     -446     0        0       0      0
+2     Free     147.490   387.691   -446.000     0      0     60.000     385     -446     0        0       0      0
+3     Free     147.490  -387.691   -446.000     0      0    -60.000     385     -446     0        0       0      0
 ---------------------- POINTS --------------------------------                                           
 ID   Type      X         Y       Z       M    V    CdA   CA
 (-)  (-)      (m)       (m)     (m)    (kg) (m^3) (m^2) (-)
 1   Vessel  -58.000    0.000 -14.000     0    0    0    0
-2   Fixed  -1044.00    0.000 -1000.000    0    0    0    0
-3   Vessel   29.000   50.229 -14.000     0    0    0    0
-4   Fixed   522.000  904.130 -1000.000    0    0    0    0
-5   Vessel   29.000  -50.229 -14.000     0    0    0    0
-6   Fixed   522.000 -904.130 -1000.000    0    0    0    0
+2   Body1     0.000     0.000   0.000     0    0     0    0
+3   Fixed  -1044.00    0.000 -1000.000    0    0    0    0
+4   Vessel   29.000   50.229 -14.000     0    0    0    0
+5   Body2     0.000     0.000   0.000     0    0     0    0
+6   Fixed   522.000  904.130 -1000.000    0    0    0    0
+7   Vessel   29.000  -50.229 -14.000     0    0    0    0
+8   Body3     0.000     0.000   0.000     0    0     0    0
+9   Fixed   522.000 -904.130 -1000.000    0    0    0    0
 ---------------------- LINES --------------------------------------                                           
 ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 (-)   (-)       (-)       (-)      (m)       (-)      (-)
-1     main       2         1     1194.625     50       -
-2     main       4         3     1194.625     50       -
-3     main       6         5     1194.625     50       -
+1     main       2         1     467.197     50       -
+2     main       3         2     532.803     50       -
+3     main       5         4     467.197     50       -
+4     main       6         5     532.803     50       -
+5     main       8         7     467.197     50       -
+6     main       9         8     532.803     50       -
 ---------------------- SOLVER OPTIONS ---------------------------------------
 0.001    dtM       - time step to use in mooring integration (s)
 3.0e6    kbot      - bottom stiffness (Pa/m)
@@ -29,33 +41,12 @@ ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
 0.001     threshIC  - threshold for IC convergence (-)                                          
 ------------------------ OUTPUTS --------------------------------------------
-LINE1N30PX
-LINE1N30PY
-LINE1N30PZ
-LINE2N30PX
-LINE2N30PY
-LINE2N30PZ
-LINE3N30PX
-LINE3N30PY
-LINE3N30PZ
-LINE1N30FX
-LINE1N30FY
-LINE1N30FZ
-LINE1N30MX
-LINE1N30MY
-LINE1N30MZ
-LINE2N30FX
-LINE2N30FY
-LINE2N30FZ
-LINE2N30MX
-LINE2N30MY
-LINE2N30MZ
-LINE3N30FX
-LINE3N30FY
-LINE3N30FZ
-LINE3N30MX
-LINE3N30MY
-LINE3N30MZ
+BODY1PX BODY1PY BODY1PZ BODY1RX BODY1RY BODY1RZ
+BODY1VX BODY1VY BODY1VZ BODY1RVX BODY1RVY BODY1RVZ
+BODY2PX BODY2PY BODY2PZ BODY2RX BODY2RY BODY2RZ
+BODY2VX BODY2VY BODY2VZ BODY2RVX BODY2RVY BODY2RVZ
+BODY3PX BODY3PY BODY3PZ BODY3RX BODY3RY BODY3RZ
+BODY3VX BODY3VY BODY3VZ BODY3RVX BODY3RVY BODY3RVZ
 END                                         
 ------------------------- need this line --------------------------------------                                                                                     
                                             
