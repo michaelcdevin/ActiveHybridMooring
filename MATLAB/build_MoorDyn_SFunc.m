@@ -6,7 +6,7 @@
 % Run `mex -setup C++` in Matlab to configure a C++ compiler if you have not already done so.
 % !!BE SURE THE C++ COMPILER MATCHES THE ONE USED TO COMPILE MOORDYN!!
 
-ndof = 6; %6
+ndof = 6; %3 or 6
 
 if ndof == 3
     mexname = 'MoorDyn_SFunc_3DOF'; % base name of the resulting mex file

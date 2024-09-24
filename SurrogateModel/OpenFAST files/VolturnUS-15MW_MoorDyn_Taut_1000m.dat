@@ -26,12 +26,12 @@ ID   Type      X         Y       Z       M    V    CdA   CA
 ---------------------- LINES --------------------------------------                                           
 ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 (-)   (-)       (-)       (-)      (m)       (-)      (-)
-1     main       2         1     467.197     50       -
-2     main       3         2     532.803     50       -
-3     main       5         4     467.197     50       -
-4     main       6         5     532.803     50       -
-5     main       8         7     467.197     50       -
-6     main       9         8     532.803     50       -
+1     main       2         1     358.584     50       -
+2     main       3         2     445.416     50       -
+3     main       5         4     358.584     50       -
+4     main       6         5     445.416     50       -
+5     main       8         7     358.584     50       -
+6     main       9         8     445.416     50       -
 ---------------------- SOLVER OPTIONS ---------------------------------------
 0.001    dtM       - time step to use in mooring integration (s)
 3.0e6    kbot      - bottom stiffness (Pa/m)
@@ -41,12 +41,15 @@ ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
 0.001     threshIC  - threshold for IC convergence (-)                                          
 ------------------------ OUTPUTS --------------------------------------------
-BODY1PX BODY1PY BODY1PZ BODY1RX BODY1RY BODY1RZ
-BODY1VX BODY1VY BODY1VZ BODY1RVX BODY1RVY BODY1RVZ
-BODY2PX BODY2PY BODY2PZ BODY2RX BODY2RY BODY2RZ
-BODY2VX BODY2VY BODY2VZ BODY2RVX BODY2RVY BODY2RVZ
-BODY3PX BODY3PY BODY3PZ BODY3RX BODY3RY BODY3RZ
-BODY3VX BODY3VY BODY3VZ BODY3RVX BODY3RVY BODY3RVZ
+BODY1PX BODY1PY BODY1PZ
+BODY1VX BODY1VY BODY1VZ
+LINE1N50FX LINE1N50FY LINE1N50FZ
+BODY2PX BODY2PY BODY2PZ
+BODY2VX BODY2VY BODY2VZ
+LINE3N50FX LINE3N50FY LINE3N50FZ
+BODY3PX BODY3PY BODY3PZ
+BODY3VX BODY3VY BODY3VZ
+LINE5N50FX LINE5N50FY LINE5N50FZ
 END                                         
 ------------------------- need this line --------------------------------------                                                                                     
                                             

@@ -17,9 +17,9 @@ ID   Type       X          Y         Z        M    V    CdA    CA
 ---------------------- LINES --------------------------------------                                           
 ID  LineType  AttachA   AttachB  UnstrLen  NumSegs   Outputs
 (#)   (name)   (ID)      (ID)       (m)       (-)      (-)
-1     nylon      2         1      804.916     50        pvt
-2     nylon      4         3      804.916     50        pvt
-3     nylon      6         5      804.916     50        pvt
+1     nylon      2         1      445.416     50        pvt
+2     nylon      4         3      445.416     50        pvt
+3     nylon      6         5      445.416     50        pvt
 ---------------------- SOLVER OPTIONS ---------------------------------------
 0.005    dtM       - time step to use in mooring integration (s)
 RK2      tScheme   - time integrator
