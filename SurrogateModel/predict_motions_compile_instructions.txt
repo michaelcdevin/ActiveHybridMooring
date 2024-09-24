@@ -1,0 +1,1 @@
+g++ -g -Wall -o predict_motions predict_motions.cpp -L../../libKriging/build/src/lib -lKriging -L../../libKriging/build/dependencies/armadillo-code -larmadillo -L../../libKriging/build/dependencies/lbfgsb_cpp -llbfgsb_cpp -I../../libKriging/src/lib/include -I../../libKriging/build/src/lib -I../../libKriging/build/dependencies/armadillo-code/tmp/include
