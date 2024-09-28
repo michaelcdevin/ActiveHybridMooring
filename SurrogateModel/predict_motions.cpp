@@ -1,9 +1,14 @@
+// MCD: it seems like libKriging sets these in CMakeLists.txt, but it doesn't seem to propagate correctly, so I'm hardcoding these here
+#define ARMA_ALIEN_MEM_ALLOC_FUNCTION lkalloc::malloc
+#define ARMA_ALIEN_MEM_FREE_FUNCTION lkalloc::free
+
 #include <iostream>
 #include <string>
-
+#include "libKriging/utils/lk_armadillo.hpp"
 #include <libKriging/Kriging.hpp>
 #include <libKriging/KrigingLoader.hpp>
-// #include <libKriging/Trend.hpp>
+#include <libKriging/Trend.hpp>
+
 
 
 // model_file is a path to a stored JSON file containing a libKriging surrogate model
@@ -17,8 +22,8 @@ arma::vec predict_motions(const std::string model_file, const arma::mat incoming
 }
 
 int main() {
-    std::string file1 = "models/model_l1px.json";
-    std::string file2 = "models/model_l2vz.json";
+    std::string file1 = "../../../models/model_l1px.json";
+    std::string file2 = "../../../models/model_l2vz.json";
     arma::mat inputs1 = {-22403700.0, 500.0, -23290000.0, 0.5};
     arma::mat inputs2 = {-22600000.0, 200.0, -23550000.0, -0.5};
     auto motions1 = predict_motions(file1, inputs1);
