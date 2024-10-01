@@ -9,7 +9,7 @@ inline constexpr double pi = 3.14159265358979323846;
 
 int main(int, char**) {
     // define system
-    auto system = new moordyn::MoorDyn("../../MoorDyn/ahm_3dof.txt"); //("../../MoorDyn/oc3.txt");
+    auto system = new moordyn::MoorDyn("../../MoorDyn/ahm_3dof_dynamic_relax.txt"); //("../../MoorDyn/oc3.txt");
     if (!system)
         return 1;
     

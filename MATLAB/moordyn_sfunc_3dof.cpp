@@ -121,66 +121,69 @@ static void mdlInitializeSizes(SimStruct *S)
 {
     static char ChannelNames[CHANNEL_LENGTH *  + 1];
     if (t == -1) {
-        ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
+      ssSetNumSFcnParams(S, NUM_PARAM); /* Number of expected parameters */
+      // Get parameters from user-inputted block parameters (should not change during simulation)
+      ssSetSFcnParamTunable(S, PARAM_FILENAME, SS_PRM_NOT_TUNABLE);
+      mxGetString(ssGetSFcnParam(S, PARAM_FILENAME), InputFileName, INTERFACE_STRING_LENGTH);
 
-        // Get parameters from user-inputted block parameters (should not change during simulation)
-        ssSetSFcnParamTunable(S, PARAM_FILENAME, SS_PRM_NOT_TUNABLE); 
-        mxGetString(ssGetSFcnParam(S, PARAM_FILENAME), InputFileName, INTERFACE_STRING_LENGTH);
+      ssSetSFcnParamTunable(S, PARAM_DT, SS_PRM_NOT_TUNABLE);
+      dt = mxGetScalar(ssGetSFcnParam(S, PARAM_DT));
 
-        ssSetSFcnParamTunable(S, PARAM_DT, SS_PRM_NOT_TUNABLE); 
-        dt = mxGetScalar(ssGetSFcnParam(S, PARAM_DT));
+      ssSetSFcnParamTunable(S, PARAM_TMAX, SS_PRM_NOT_TUNABLE);
+      TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
 
-        ssSetSFcnParamTunable(S, PARAM_TMAX, SS_PRM_NOT_TUNABLE); 
-        TMax = mxGetScalar(ssGetSFcnParam(S, PARAM_TMAX));
+      // Initialize mooring system
+      mdSystem = new moordyn::MoorDyn(InputFileName);
+      if (checkError(S))
+        return;
 
-        // Initialize mooring system
-        mdSystem = new moordyn::MoorDyn(InputFileName);
-        if (checkError(S)) return;
+      // MCD: I don't think I need this, but still not entirely sure TODO
+      // set DT in the Matlab workspace (necessary for Simulink block solver options)
+      // pm = mxCreateDoubleScalar(dt);
+      // err = mexPutVariable("base", "DT", pm);
+      // mxDestroyArray(pm);
+      // if (checkError(S)) return;
 
-        // MCD: I don't think I need this, but still not entirely sure TODO
-        // set DT in the Matlab workspace (necessary for Simulink block solver options)
-        // pm = mxCreateDoubleScalar(dt);
-        // err = mexPutVariable("base", "DT", pm);
-        // mxDestroyArray(pm);
-        // if (checkError(S)) return;
+      ssSetNumContStates(S, 0);
+      ssSetNumDiscStates(S, 0);
+      if (!ssSetNumInputPorts(S, 1))
+        return;
+      ssSetInputPortWidth(S, 0, NumInputs);
+      // ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
 
-        ssSetNumContStates(S, 0);
-        ssSetNumDiscStates(S, 0);
-        if (!ssSetNumInputPorts(S, 1)) return;
-        ssSetInputPortWidth(S, 0, NumInputs);
-        // ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
-        
-        /*
-        * Set direct feedthrough flag (1=yes, 0=no).
-        * A port has direct feedthrough if the input is used in either
-        * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
-        */
-        ssSetInputPortDirectFeedThrough(S, 0, 0); // no direct feedthrough because we're just putting everything in one update routine (acting like a discrete system)
+      /*
+       * Set direct feedthrough flag (1=yes, 0=no).
+       * A port has direct feedthrough if the input is used in either
+       * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
+       */
+      ssSetInputPortDirectFeedThrough(S, 0, 0); // no direct feedthrough because we're just putting everything in one update routine (acting like a discrete system)
 
-        if (!ssSetNumOutputPorts(S, 1)) return;
-        ssSetOutputPortWidth(S, 0, NumOutputs);
+      if (!ssSetNumOutputPorts(S, 1))
+        return;
+      ssSetOutputPortWidth(S, 0, NumOutputs);
 
-        ssSetNumSampleTimes(S, 1);
-        ssSetNumRWork(S, 0);
-        ssSetNumIWork(S, 0);
-        ssSetNumPWork(S, 0);
-        ssSetNumModes(S, 0);
-        ssSetNumNonsampledZCs(S, 0);
+      ssSetNumSampleTimes(S, 1);
+      ssSetNumRWork(S, 0);
+      ssSetNumIWork(S, 0);
+      ssSetNumPWork(S, 0);
+      ssSetNumModes(S, 0);
+      ssSetNumNonsampledZCs(S, 0);
 
-        if(!ssSetNumDWork(   S, 2)) return;
+      if (!ssSetNumDWork(S, 2))
+        return;
 
-        ssSetDWorkWidth(   S, WORKARY_OUTPUT, ssGetOutputPortWidth(S, 0));
-        ssSetDWorkDataType(S, WORKARY_OUTPUT, SS_DOUBLE); /* use SS_DOUBLE if needed */
+      ssSetDWorkWidth(S, WORKARY_OUTPUT, ssGetOutputPortWidth(S, 0));
+      ssSetDWorkDataType(S, WORKARY_OUTPUT, SS_DOUBLE); /* use SS_DOUBLE if needed */
 
-        ssSetDWorkWidth(   S, WORKARY_INPUT, ssGetInputPortWidth(S, 0));
-        ssSetDWorkDataType(S, WORKARY_INPUT, SS_DOUBLE);
+      ssSetDWorkWidth(S, WORKARY_INPUT, ssGetInputPortWidth(S, 0));
+      ssSetDWorkDataType(S, WORKARY_INPUT, SS_DOUBLE);
 
-        /* Specify the operating point save/restore compliance to be same as a 
-        * built-in block */
-        ssSetOperatingPointCompliance(S, USE_DEFAULT_OPERATING_POINT);
+      /* Specify the operating point save/restore compliance to be same as a
+       * built-in block */
+      ssSetOperatingPointCompliance(S, USE_DEFAULT_OPERATING_POINT);
 
-        ssSetRuntimeThreadSafetyCompliance(S, RUNTIME_THREAD_SAFETY_COMPLIANCE_TRUE);
-        ssSetOptions(S, SS_OPTION_EXCEPTION_FREE_CODE);
+      ssSetRuntimeThreadSafetyCompliance(S, RUNTIME_THREAD_SAFETY_COMPLIANCE_TRUE);
+      ssSetOptions(S, SS_OPTION_EXCEPTION_FREE_CODE);
     }
 }
 

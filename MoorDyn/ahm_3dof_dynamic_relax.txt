@@ -1,0 +1,40 @@
+--------------------- MoorDyn Input File ------------------------------------
+IEA 15 MW UMaine VolturnUS-S semi-submersible floating platform mooring model, configured with a taut mooring system compatible with the active hybrid mooring setup                                    
+FALSE    Echo      - echo the input file data (flag)                                            
+----------------------- LINE TYPES ------------------------------------------
+TypeName  Diam   Mass/m     EA        BA/-zeta    EI    Cd    Ca   CdAx   CaAx
+(name)    (m)    (kg/m)     (N)       (N-s/-)    (-)   (-)   (-)   (-)    (-)
+nylon    0.333   385.00   4.365E+07     -1.0      0    2.0   0.82  0.4    0.27
+---------------------- POINT PROPERTIES --------------------------------                                           
+ID   Type       X          Y         Z        M    V    CdA    CA
+(-)  (-)       (m)        (m)       (m)     (kg) (m^3) (m^2)   (-)
+1   Coupled -493.800     0.000   -471.300     0     0     0     0
+2   Fixed  -1044.000     0.000  -1000.000     0     0     0     0
+3   Coupled  247.250   427.880   -470.730     0     0     0     0
+4   Fixed    522.000   904.130  -1000.000     0     0     0     0
+5   Coupled  247.250  -427.880   -470.730     0     0     0     0
+6   Fixed    522.000  -904.130  -1000.000     0     0     0     0
+---------------------- LINES --------------------------------------                                           
+ID  LineType  AttachA   AttachB  UnstrLen  NumSegs   Outputs
+(#)   (name)   (ID)      (ID)       (m)       (-)      (-)
+1     nylon      2         1      445.416     50        pvt
+2     nylon      4         3      445.416     50        pvt
+3     nylon      6         5      445.416     50        pvt
+---------------------- SOLVER OPTIONS ---------------------------------------
+0.005    dtM       - time step to use in mooring integration (s)
+RK2      tScheme   - time integrator
+1000     WtrDpth   - water depth (m)
+3.0e6    kb        - bottom stiffness (Pa/m)
+3.0e5    cb        - bottom damping (Pa-s/m)
+1.0      dtIC      - time interval for analyzing convergence during IC gen (s)
+150.0    TmaxIC    - max time for ic gen (s)
+4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
+0.001    threshIC  - threshold for IC convergence (-)                                          
+------------------------ OUTPUTS --------------------------------------------
+FairTen1                                            
+FairTen2                                            
+FairTen3                                            
+AnchTen1                                            
+AnchTen2                                            
+AnchTen3                          
+------------------------- need this line --------------------------------------
