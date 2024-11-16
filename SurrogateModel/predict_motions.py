@@ -17,8 +17,8 @@ def predict_motions(model_file:str, incoming_frcs:ArrayLike):
     return output_x_xd
 
 if __name__ == '__main__':
-    file1 = 'models/model_l1px.json'
-    file2 = 'models/model_l2vz.json'
+    file1 = 'models/model_l1px.h5'
+    file2 = 'models/model_l2vz.h5'
     inputs1 = np.array([[-22403700.0, 500.0, -23290000.0, 0.5]])
     inputs2 = np.array([[-22600000.0, 200.0, -23550000.0, -0.5]])
     motions1 = predict_motions(file1, inputs1)
