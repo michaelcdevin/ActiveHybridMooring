@@ -1,0 +1,8 @@
+pyenv('Version', 'C:\Users\mcdevin\AppData\Local\miniforge3\envs\ahm\python.exe')
+file1 = 'models/model_l1px.h5'
+inputs1 = py.list({-22403700.0, 500.0, -23290000.0, 0.5})
+py.predict_motions.predict_motions(file1, inputs1)
+
+
+to reload Python module after making Python source changes:
+py.importlib.reload(py.importlib.import_module('predict_motions'))
