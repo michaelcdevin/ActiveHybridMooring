@@ -6,4 +6,4 @@ MD_InputFileName = '../MoorDyn/ahm_3dof.txt';
 dt               = 0.01; % seconds
 TMax             = 0.1; % seconds
 
-sim('simple_test_model.slx');
+sim('ahm_model_no_actuators.slx');
