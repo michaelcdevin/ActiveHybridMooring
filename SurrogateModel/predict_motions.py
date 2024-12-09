@@ -12,7 +12,7 @@ def predict_motions(model_file:str, incoming_frcs:ArrayLike):
     output_x_xd should be sent to MoorDyn S-Function
     """
     frcs = np.atleast_2d(incoming_frcs)
-    model = lk.Kriging(kernel='exp', regmodel='constant').load(model_file)
+    model = lk.Kriging('gauss').load(model_file)
     output_x_xd, _, _, _, _ = model.predict(frcs, False, False, False)
     return output_x_xd
 
