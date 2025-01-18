@@ -8,18 +8,18 @@ nylon    0.333   385.00   4.365E+07     -1.0      0    2.0   0.82  0.4    0.27
 ---------------------- POINT PROPERTIES --------------------------------                                           
 ID   Type       X          Y         Z        M    V    CdA    CA
 (-)  (-)       (m)        (m)       (m)     (kg) (m^3) (m^2)   (-)
-1   Coupled -406.060     0.000   -446.000     0     0     0     0
+1   Coupled -489.000     0.000   -474.516     0     0     0     0
 2   Fixed  -1044.000     0.000  -1000.000     0     0     0     0
-3   Coupled  147.490   387.691   -446.000     0     0     0     0
+3   Coupled  244.400   423.392   -474.516     0     0     0     0
 4   Fixed    522.000   904.130  -1000.000     0     0     0     0
-5   Coupled  147.490  -387.691   -446.000     0     0     0     0
+5   Coupled  244.400  -423.392   -474.516     0     0     0     0
 6   Fixed    522.000  -904.130  -1000.000     0     0     0     0
 ---------------------- LINES --------------------------------------                                           
 ID  LineType  AttachA   AttachB  UnstrLen  NumSegs   Outputs
 (#)   (name)   (ID)      (ID)       (m)       (-)      (-)
-1     nylon      2         1      445.416     50        pvt
-2     nylon      4         3      445.416     50        pvt
-3     nylon      6         5      445.416     50        pvt
+1     nylon      2         1      219.467     50        pvt
+2     nylon      4         3      219.467     50        pvt
+3     nylon      6         5      219.467     50        pvt
 ---------------------- SOLVER OPTIONS ---------------------------------------
 0.005    dtM       - time step to use in mooring integration (s)
 RK2      tScheme   - time integrator
@@ -31,10 +31,10 @@ RK2      tScheme   - time integrator
 4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
 0.001    threshIC  - threshold for IC convergence (-)                                          
 ------------------------ OUTPUTS --------------------------------------------
-FairTen1                                            
-FairTen2                                            
-FairTen3                                            
-AnchTen1                                            
-AnchTen2                                            
-AnchTen3                          
+LINE1N50PX LINE1N50PY LINE1N50PZ
+LINE1N50FX LINE1N50FY LINE1N50FZ
+LINE2N50PX LINE2N50PY LINE2N50PZ
+LINE2N50FX LINE2N50FY LINE2N50FZ
+LINE3N50PX LINE3N50PY LINE3N50PZ
+LINE3N50FX LINE3N50FY LINE3N50FZ                        
 ------------------------- need this line --------------------------------------
