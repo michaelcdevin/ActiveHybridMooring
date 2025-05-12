@@ -103,8 +103,6 @@ True                   SumPrint    - Print summary data to <RootName>.sum (flag)
 True                   TabDelim    - Use tab delimiters in text tabular output file? (flag) (currently unused)
 "ES10.3E2"             OutFmt      - Format used for text tabular output (except time).  Resulting field should be 10 characters. (quoted string) (currently unused)
 30.0                   TStart      - Time to begin tabular output (s) (currently unused)
-OutList      - The next line(s) contains a list of output parameters.  
-"GenPwr"
-"GenTq"
+OutList      - The next line(s) contains a list of output parameters.
 END of input file (the word "END" must appear in the first 3 columns of this last Out_List line)
 ---------------------------------------------------------------------------------------

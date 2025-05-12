@@ -22,19 +22,19 @@ ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 3     main       6         5     596.500     50        pt
 ---------------------- SOLVER OPTIONS ---------------------------------------
 0.001    dtM       - time step to use in mooring integration (s)
-3.0e6    kbot      - bottom stiffness (Pa/m)
-3.0e5    cbot      - bottom damping (Pa-s/m)
+0.0      kbot      - bottom stiffness (Pa/m)
+0.0      cbot      - bottom damping (Pa-s/m)
 1.0      dtIC      - time interval for analyzing convergence during IC gen (s)
 150.0     TmaxIC    - max time for ic gen (s)
 4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
 0.001     threshIC  - threshold for IC convergence (-)                                          
 ------------------------ OUTPUTS --------------------------------------------
-FairTen1                                            
-FairTen2                                            
-FairTen3                                            
-AnchTen1                                            
-AnchTen2                                            
-AnchTen3                                  
+LINE1N1PX LINE1N1PY LINE1N1PZ
+LINE2N1PX LINE2N1PY LINE2N1PZ
+LINE3N1PX LINE3N1PY LINE3N1PZ
+LINE1N1VX LINE1N1VY LINE1N1VZ
+LINE2N1VX LINE2N1VY LINE2N1VZ
+LINE3N1VX LINE3N1VY LINE3N1VZ
 END                                         
 ------------------------- need this line --------------------------------------                                                                                     
                                             

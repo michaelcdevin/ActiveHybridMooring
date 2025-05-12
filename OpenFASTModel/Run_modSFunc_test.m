@@ -9,5 +9,4 @@
 FAST_InputFileName = 'Input files\VolturnUS15MW\VolturnUS-15MW_Taut_1000m_hybrid.fst';
 TMax               = 60; % seconds
 
-sim('modSFunc_test.mdl',[0,TMax]);
-clear
+sim('modSFunc_test.mdl');
