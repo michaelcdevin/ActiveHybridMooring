@@ -43,8 +43,8 @@ __MWOPC_PART_BEGIN__ /metadata/coreProperties.xml
   <dcterms:created xsi:type="dcterms:W3CDTF">2004-02-09T23:59:21Z</dcterms:created>
   <dc:creator>bjonkman</dc:creator>
   <cp:lastModifiedBy>mcdevin</cp:lastModifiedBy>
-  <dcterms:modified xsi:type="dcterms:W3CDTF">2025-05-10T14:12:25Z</dcterms:modified>
-  <cp:revision>26.7</cp:revision>
+  <dcterms:modified xsi:type="dcterms:W3CDTF">2025-05-12T01:09:59Z</dcterms:modified>
+  <cp:revision>26.8</cp:revision>
   <cp:version>R2024b</cp:version>
 </cp:coreProperties>
 
@@ -115,7 +115,7 @@ __MWOPC_PART_BEGIN__ /simulink/blockdiagram.xml
     <ConfigManagerSettings>
       <P Name="ModifiedByFormat">%&lt;Auto&gt;</P>
       <P Name="ModifiedDateFormat">%&lt;Auto&gt;</P>
-      <P Name="ModelVersionFormat">%&lt;AutoIncrement:26.7&gt;</P>
+      <P Name="ModelVersionFormat">%&lt;AutoIncrement:26.8&gt;</P>
     </ConfigManagerSettings>
     <EditorSettings>
       <P Name="LibraryLinkDisplay">none</P>
@@ -1048,54 +1048,61 @@ __MWOPC_PART_BEGIN__ /simulink/systems/_rels/system_root.xml.rels
 __MWOPC_PART_BEGIN__ /simulink/systems/system_2.xml
 <?xml version="1.0" encoding="utf-8"?>
 <System>
-  <P Name="Location">[-1, -7, 1537, 817]</P>
+  <P Name="Location">[0, 0, 768, 816]</P>
   <P Name="Open">on</P>
   <P Name="ZoomFactor">125</P>
   <Block BlockType="Constant" Name="Constant" SID="70">
     <P Name="Position">[-225, 30, -195, 60]</P>
     <P Name="ZOrder">7</P>
-    <P Name="Value">-78708206.39</P>
+    <P Name="Value">-8927321.02
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant1" SID="81">
     <P Name="Position">[-170, 70, -140, 100]</P>
     <P Name="ZOrder">18</P>
-    <P Name="Value">-1.758</P>
+    <P Name="Value">0</P>
   </Block>
   <Block BlockType="Constant" Name="Constant2" SID="83">
     <P Name="Position">[-120, 110, -90, 140]</P>
     <P Name="ZOrder">20</P>
-    <P Name="Value">-74781336.46
+    <P Name="Value">-9326429.52
 </P>
   </Block>
   <Block BlockType="Constant" Name="Constant3" SID="85">
     <P Name="Position">[-65, 150, -35, 180]</P>
     <P Name="ZOrder">22</P>
-    <P Name="Value">3.9345e7</P>
+    <P Name="Value">4465686.23
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant4" SID="87">
     <P Name="Position">[-10, 190, 20, 220]</P>
     <P Name="ZOrder">24</P>
-    <P Name="Value">6.8161e7</P>
+    <P Name="Value">7734027.00
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant5" SID="89">
     <P Name="Position">[35, 230, 65, 260]</P>
     <P Name="ZOrder">26</P>
-    <P Name="Value">-7.4823e7</P>
+    <P Name="Value">-9329689.49
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant6" SID="91">
     <P Name="Position">[80, 270, 110, 300]</P>
     <P Name="ZOrder">28</P>
-    <P Name="Value">3.9345e7</P>
+    <P Name="Value">4401590.63
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant7" SID="93">
     <P Name="Position">[130, 310, 160, 340]</P>
     <P Name="ZOrder">30</P>
-    <P Name="Value">-6.8161e7</P>
+    <P Name="Value">-7623476.79
+</P>
   </Block>
   <Block BlockType="Constant" Name="Constant8" SID="95">
     <P Name="Position">[190, 350, 220, 380]</P>
     <P Name="ZOrder">32</P>
-    <P Name="Value">-7.4823e7</P>
+    <P Name="Value">-10942096.23
+</P>
   </Block>
   <Block BlockType="Mux" Name="Mux1" SID="9">
     <PortCounts in="9" out="1"/>
@@ -1174,63 +1181,71 @@ __MWOPC_PART_BEGIN__ /simulink/systems/system_2.xml
     <PortCounts out="1"/>
     <P Name="Position">[-225, 70, -195, 100]</P>
     <P Name="ZOrder">17</P>
-    <P Name="Amplitude">22011</P>
+    <P Name="Amplitude">199449.03
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave1" SID="82">
     <PortCounts out="1"/>
     <P Name="Position">[-170, 110, -140, 140]</P>
     <P Name="ZOrder">19</P>
-    <P Name="Amplitude">510.6</P>
+    <P Name="Amplitude">0</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave2" SID="84">
     <PortCounts out="1"/>
     <P Name="Position">[-120, 150, -90, 180]</P>
     <P Name="ZOrder">21</P>
-    <P Name="Amplitude">35425</P>
+    <P Name="Amplitude">148544.47
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave3" SID="86">
     <PortCounts out="1"/>
     <P Name="Position">[-65, 190, -35, 220]</P>
     <P Name="ZOrder">23</P>
-    <P Name="Amplitude">25362</P>
+    <P Name="Amplitude">142922.41
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave4" SID="88">
     <PortCounts out="1"/>
     <P Name="Position">[-10, 230, 20, 260]</P>
     <P Name="ZOrder">25</P>
-    <P Name="Amplitude">4632</P>
+    <P Name="Amplitude">69865.84
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave5" SID="90">
     <PortCounts out="1"/>
     <P Name="Position">[35, 270, 65, 300]</P>
     <P Name="ZOrder">27</P>
-    <P Name="Amplitude">28207</P>
+    <P Name="Amplitude">75649.71
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave6" SID="92">
     <PortCounts out="1"/>
     <P Name="Position">[80, 310, 110, 340]</P>
     <P Name="ZOrder">29</P>
-    <P Name="Amplitude">24550</P>
+    <P Name="Amplitude">219542.34
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave7" SID="94">
     <PortCounts out="1"/>
     <P Name="Position">[130, 350, 160, 380]</P>
     <P Name="ZOrder">31</P>
-    <P Name="Amplitude">5087</P>
+    <P Name="Amplitude">310768.04
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Sin" Name="Sine Wave8" SID="96">
     <PortCounts out="1"/>
     <P Name="Position">[190, 390, 220, 420]</P>
     <P Name="ZOrder">33</P>
-    <P Name="Amplitude">28166</P>
+    <P Name="Amplitude">1631446.93
+</P>
     <P Name="SampleTime">0</P>
   </Block>
   <Block BlockType="Outport" Name="OutData" SID="13">
@@ -1461,7 +1476,7 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
   <Object PropName="BdWindowsInfo" ObjectID="1" ClassName="Simulink.BDWindowsInfo">
     <Object PropName="WindowsInfo" ObjectID="2" ClassName="Simulink.WindowInfo">
       <P Name="IsActive" Class="logical">1</P>
-      <P Name="Location" Class="double">[-1.0, -7.0, 1538.0, 824.0]</P>
+      <P Name="Location" Class="double">[0.0, 0.0, 768.0, 816.0]</P>
       <Object PropName="ModelBrowserInfo" ObjectID="3" ClassName="Simulink.ModelBrowserInfo">
         <P Name="Visible" Class="logical">1</P>
         <P Name="DockPosition" Class="char">Left</P>
@@ -1479,10 +1494,10 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
           <P Name="IsTabbed" Class="logical">1</P>
           <P Name="ViewObjType" Class="char">SimulinkSubsys</P>
           <P Name="LoadSaveID" Class="char">2</P>
-          <P Name="Extents" Class="double">[1521.0, 741.0]</P>
+          <P Name="Extents" Class="double">[559.0, 731.0]</P>
           <P Name="ZoomFactor" Class="double">1.2499999999999998</P>
-          <P Name="Offset" Class="double">[-233.85906425629767, 6.0943503637565186]</P>
-          <P Name="SceneRectInView" Class="double">[-233.85906425629767, 6.0943503637565186, 973.44000000000017, 474.24000000000007]</P>
+          <P Name="Offset" Class="double">[-75.779064256297829, 6.0943503637565186]</P>
+          <P Name="SceneRectInView" Class="double">[-75.779064256297829, 6.0943503637565186, 357.76000000000005, 467.84000000000009]</P>
         </Object>
         <Object ObjectID="6">
           <P Name="IsActive" Class="logical">0</P>
@@ -1592,7 +1607,7 @@ __MWOPC_PART_BEGIN__ /simulink/windowsInfo.xml
           <P Name="Minimized" Class="char">Unset</P>
         </Object>
       </Array>
-      <P Name="WindowState" Class="char">AAAA/wAAAAD9AAAAAwAAAAAAAAFdAAADLPwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAAAAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQBAAAAlwAAAywAAAB5AP////sAAABgAFMAaQBtAHUAbABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZQBzAAAAAAD/////AAAApwD///8AAAABAAAAAAAAAAD8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAdABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAAA/////wAAAhYA////AAAAAwAAAAAAAAAA/AEAAAAB+/////8AAAAAAP////8AAAMWAP///wAABh4AAAMsAAAAAQAAAAIAAAABAAAAAvwAAAAA</P>
+      <P Name="WindowState" Class="char">AAAA/wAAAAD9AAAAAwAAAAAAAAFdAAADIvwCAAAABPsAAAAWAEQAbwBjAGsAVwBpAGQAZwBlAHQAMwEAAAAxAAAB+AAAAAAAAAAA+wAAABYARABvAGMAawBXAGkAZABnAGUAdAA0AAAAAAD/////AAAAAAAAAAD7AAAAUgBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQALwBHAEwAVQBFADIAIAB0AHIAZQBlACAAYwBvAG0AcABvAG4AZQBuAHQBAAAAlwAAAyIAAAB5AP////sAAABgAFMAaQBtAHUAbABpAG4AawA6AEUAZABpAHQAbwByADoAUgBlAGYAZQByAGUAbgBjAGUAZABGAGkAbABlAHMALwBSAGUAZgBlAHIAZQBuAGMAZQBkACAARgBpAGwAZQBzAAAAAAD/////AAAApwD///8AAAABAAAAAAAAAAD8AgAAAAH7AAAAVABHAEwAVQBFADIAOgBQAHIAbwBwAGUAcgB0AHkASQBuAHMAcABlAGMAdABvAHIALwBQAHIAbwBwAGUAcgB0AHkAIABJAG4AcwBwAGUAYwB0AG8AcgAAAAAA/////wAAAhYA////AAAAAwAAAAAAAAAA/AEAAAAB+/////8AAAAAAP////8AAAMWAP///wAAAlwAAAMiAAAAAQAAAAIAAAABAAAAAvwAAAAA</P>
       <Array PropName="PersistedApps" Type="Cell" Dimension="0*1"/>
       <P Name="WindowUuid" Class="char">50197adc-b428-4ab1-b54b-7cf3d2b2bff5</P>
     </Object>

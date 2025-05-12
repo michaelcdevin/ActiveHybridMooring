@@ -5,8 +5,7 @@
 % addpath('../../../build/bin'); % install location for Windows Visual Studio builds
 % addpath(genpath('../../../install')); % cmake default install location
 
-% these variables are defined in the OpenLoop model's FAST_SFunc block:
-x = 1;
+% these variables are defined in the OpenLoop model's FAST_SFunc block
 FAST_InputFileName = 'Input files\VolturnUS15MW\VolturnUS-15MW_Taut_1000m_hybrid.fst';
 TMax               = 60; % seconds
 
