@@ -3,8 +3,8 @@ IEA 15 MW offshore reference model on UMaine VolturnUS-S semi-submersible floati
 ---------------------- SIMULATION CONTROL -------------------------------------- 
 False                  Echo        - Echo input data to <RootName>.ech (flag) 
 "FATAL"                AbortLevel  - Error level when simulation should abort (string) {"WARNING", "SEVERE", "FATAL"} 
-60.0                   TMax        - Total run time (s) 
-0.01                   DT          - Integration time step (s)  
+660.0                   TMax        - Total run time (s) 
+0.01                  DT          - Integration time step (s)  
 2                      InterpOrder - Interpolation order for input/output time history (-) {1=linear, 2=quadratic} 
 0                      NumCrctn    - Number of correction iterations (-) {0=explicit calculation, i.e., no corrections} 
 99999.0                DT_UJac     - Time between calls to get Jacobians (s) 
@@ -27,19 +27,19 @@ False                  Echo        - Echo input data to <RootName>.ech (flag)
 335                    SpdSound    - Speed of sound in working fluid (m/s)
 103500                 Patm        - Atmospheric pressure (Pa) [used only for an MHK turbine cavitation check]
 1700                   Pvap        - Vapour pressure of working fluid (Pa) [used only for an MHK turbine cavitation check]
-474.516                WtrDpth     - Water depth (m)
+1000                   WtrDpth     - Water depth (m)
 0                      MSL2SWL     - Offset between still-water level and mean sea level (m) [positive upward]
 ---------------------- INPUT FILES --------------------------------------------- 
 "VolturnUS-15MW_ElastoDyn.dat"    EDFile          - Name of file containing ElastoDyn input parameters (quoted string) 
 ""                     BDBldFile(1) - Name of file containing BeamDyn input parameters for blade 1 (quoted string) 
 ""                     BDBldFile(2) - Name of file containing BeamDyn input parameters for blade 2 (quoted string) 
 ""                     BDBldFile(3) - Name of file containing BeamDyn input parameters for blade 3 (quoted string) 
-"../IEA15MW/IEA-15MW_InflowFile.dat"    InflowFile      - Name of file containing inflow wind input parameters (quoted string) 
-"VolturnUS-15MW_AeroDyn15.dat"  AeroFile     - Name of file containing aerodynamic input parameters (quoted string) 
-"VolturnUS-15MW_ServoDyn.dat"    ServoFile       - Name of file containing control and electrical-drive input parameters (quoted string) 
-"VolturnUS-15MW_HydroDyn.dat"      HydroFile       - Name of file containing hydrodynamic input parameters (quoted string) 
+""                     InflowFile      - Name of file containing inflow wind input parameters (quoted string) 
+""                     AeroFile     - Name of file containing aerodynamic input parameters (quoted string) 
+""                     ServoFile       - Name of file containing control and electrical-drive input parameters (quoted string) 
+"VolturnUS-15MW_HydroDyn_lc3.4.dat"      HydroFile       - Name of file containing hydrodynamic input parameters (quoted string) 
 "none"                 SubFile         - Name of file containing sub-structural input parameters (quoted string) 
-"VolturnUS-15MW_MoorDyn_Taut_1000m_hybrid.dat"      MooringFile     - Name of file containing mooring system input parameters (quoted string) 
+"VolturnUS-15MW_MoorDyn_Taut_1000m.dat"      MooringFile     - Name of file containing mooring system input parameters (quoted string) 
 "none"                 IceFile         - Name of file containing ice input parameters (quoted string) 
 ---------------------- OUTPUT -------------------------------------------------- 
 False                  SumPrint    - Print summary data to "<RootName>.sum" (flag) 
@@ -47,7 +47,7 @@ False                  SumPrint    - Print summary data to "<RootName>.sum" (fla
 99999.0                ChkptTime   - Amount of time between creating checkpoint files for potential restart (s) 
 default                DT_Out      - Time step for tabular output (s) (or "default") 
 0.000000               TStart      - Time to begin tabular output (s)    
-2                      OutFileFmt  - Format for tabular (time-marching) output file (switch) {1: text file [<RootName>.out], 2: binary file [<RootName>.outb], 3: both} 
+3                      OutFileFmt  - Format for tabular (time-marching) output file (switch) {1: text file [<RootName>.out], 2: binary file [<RootName>.outb], 3: both} 
 True                   TabDelim    - Use tab delimiters in text tabular output file? (flag) {uses spaces if false} 
 "ES10.3E2"             OutFmt      - Format used for text tabular output, excluding the time channel.  Resulting field should be 10 characters. (quoted string) 
 ---------------------- LINEARIZATION ------------------------------------------- 
