@@ -260,6 +260,12 @@ static void mdlInitializeSampleTimes(SimStruct *S)
         int err = mdSystem->Init(x, xd);
         if (checkError(S)) return;
         t = 0;
+
+        // Calculate forces at t=0
+        err = mdSystem->Step(x, xd, OutputAry, t, dt);
+
+        if (checkError(S)) return;
+        setOutputs(S, OutputAry);
     }
   }
 #endif /*  MDL_START */
