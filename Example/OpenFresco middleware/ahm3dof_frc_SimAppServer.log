@@ -1,0 +1,97 @@
+****************************************************************
+* Make sure that offset values of controller are set to ZERO,  *
+* then start the Simulink model                                *
+*                                                              *
+* Press 'Enter' to proceed or 'c' to cancel the initialization *
+****************************************************************
+****************************************************************
+* The channel to Simulink with address: 127.0.0.1
+* and port: 22222 has been opened
+****************************************************************
+
+****************************************************************
+* ExperimentalControl: 1
+*   type: ECSimSimulink
+*   channel: TCP, ipAddress: 127.0.0.1, ipPort: 22222
+*   ctrlFilter tags: 0 0 0 0 0
+*   daqFilter tags: 0 0 0 0 0
+* ExperimentalCP: 1
+*   numSignal : 10, numDOF: 9
+*   DOF       : 1 2 3 4 5 6 7 8 9 1
+*   rspType   : f f f f f f f f f t
+*   isRelTrial: 1 1 1 1 1 1 1 1 1 0 
+*   factor    : 1 1 1 1 1 1 1 1 1 1 
+* ExperimentalCP: 2
+*   numSignal : 28, numDOF: 9
+*   DOF       : 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1
+*   rspType   : f f f f f f f f f d d d d d d d d d v v v v v v v v v t
+*   factor    : 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 
+****************************************************************
+
+****************************************************************
+* Initial values of DAQ are:
+*   daqSig1 = 32.8569
+*   daqSig2 = -2.0166e-05
+*   daqSig3 = 55.6623
+*   daqSig4 = -28.723
+*   daqSig5 = -51.6815
+*   daqSig6 = 84.7431
+*   daqSig7 = -28.7364
+*   daqSig8 = 51.6985
+*   daqSig9 = 84.7678
+*   daqSig10 = -480.065
+*   daqSig11 = 0
+*   daqSig12 = -465.795
+*   daqSig13 = 239.934
+*   daqSig14 = 415.656
+*   daqSig15 = -465.795
+*   daqSig16 = 239.934
+*   daqSig17 = -415.656
+*   daqSig18 = -465.795
+*   daqSig19 = 0.0401464
+*   daqSig20 = 0
+*   daqSig21 = -0.0289909
+*   daqSig22 = -0.020079
+*   daqSig23 = -0.0347852
+*   daqSig24 = -0.0290015
+*   daqSig25 = -0.020079
+*   daqSig26 = 0.0347852
+*   daqSig27 = -0.0290015
+*   daqSig28 = 0.002
+*
+* Press 'Enter' to start the test or
+* 'r' to repeat the measurement or
+* 'c' to cancel the initialization
+****************************************************************
+*****************
+* Running...... *
+*****************
+
+
+TCP Channel successfully created: Waiting for Simulation Application Client...
+
+SimAppSiteServer with ExpSite 1 has the following DOF sizes:
+   sizeCtrl = 0 0 0 9 1 
+   sizeDaq  = 9 9 9 9 1 
+
+SimAppSiteServer with ExpSite 1 - now running...
+
+****************************************************************
+* Initial signal values of FEA are:
+*   trialSigOffset1 = 8.92498e+06
+*   trialSigOffset2 = 1.22537e-304
+*   trialSigOffset3 = 9.32616e+06
+*   trialSigOffset4 = -4.46607e+06
+*   trialSigOffset5 = -7.73419e+06
+*   trialSigOffset6 = 9.32989e+06
+*   trialSigOffset7 = -4.46607e+06
+*   trialSigOffset8 = 7.73419e+06
+*   trialSigOffset9 = 9.32989e+06
+****************************************************************
+
+SimAppSiteServer with ExpSite 1 - shut down
+
+************************************************
+* The connection with Simulink has been closed *
+************************************************
+

@@ -1,0 +1,149 @@
+MoorDyn v2 log file with output level MSG at '../MoorDyn/rm3.log'
+WRN D:\a\MoorDyn\MoorDyn\source\MoorDyn2.cpp:1290 moordyn::MoorDyn::ReadInFile(): Warning in ../MoorDyn/rm3.txt:44...
+'Con8px Con8py Con8pz'
+invalid output specifier: CON.  Type must be oneof L/Line, P/Point, R/Rod, or B/Body
+WRN D:\a\MoorDyn\MoorDyn\source\MoorDyn2.cpp:1290 moordyn::MoorDyn::ReadInFile(): Warning in ../MoorDyn/rm3.txt:44...
+'Con8px Con8py Con8pz'
+invalid output specifier: CON.  Type must be oneof L/Line, P/Point, R/Rod, or B/Body
+WRN D:\a\MoorDyn\MoorDyn\source\MoorDyn2.cpp:1290 moordyn::MoorDyn::ReadInFile(): Warning in ../MoorDyn/rm3.txt:44...
+'Con8px Con8py Con8pz'
+invalid output specifier: CON.  Type must be oneof L/Line, P/Point, R/Rod, or B/Body
+Generated entities:
+	nLineTypes  = 1
+	nRodTypes   = 0
+	nPoints     = 9
+	nBodies     = 1
+	nRods       = 0
+	nLines      = 7
+	nFails      = 0
+	nFreeBodies = 1
+	nFreeRods   = 0
+	nFreePoints  = 0
+	nCpldBodies = 0
+	nCpldRods   = 0
+	nCpldPoints = 1
+Time integrator = 2nd order Runge-Kutta
+No Waves or Currents, or set externally
+Creating mooring system...
+Initializing coupled Point 9 at 0, 0, 0...
+  - Line1:
+    ID: 1
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 1 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+WRN D:\a\MoorDyn\MoorDyn\source\Line.cpp:504 moordyn::Line::initialize(): Catenary initial profile failed for Line 1, initalizing as linear 
+Initialized Line 1
+  - Line2:
+    ID: 2
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 2 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+WRN D:\a\MoorDyn\MoorDyn\source\Line.cpp:504 moordyn::Line::initialize(): Catenary initial profile failed for Line 2, initalizing as linear 
+Initialized Line 2
+  - Line3:
+    ID: 3
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 3 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+WRN D:\a\MoorDyn\MoorDyn\source\Line.cpp:504 moordyn::Line::initialize(): Catenary initial profile failed for Line 3, initalizing as linear 
+Initialized Line 3
+  - Line4:
+    ID: 4
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 4 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+WRN D:\a\MoorDyn\MoorDyn\source\Line.cpp:504 moordyn::Line::initialize(): Catenary initial profile failed for Line 4, initalizing as linear 
+Initialized Line 4
+  - Line5:
+    ID: 5
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 5 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+Initialized Line 5
+  - Line6:
+    ID: 6
+    UnstrLen: 0.9
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 6 damping set to 17537.4 Ns = 211.786 Pa-s, based on input of -0.4
+Initialized Line 6
+  - Line7:
+    ID: 7
+    UnstrLen: 1
+    N   : 1
+    d   : 0.124
+    rho : 1139.42
+    E   : 2.08276e+06
+    EI  : 0
+    BAin: -0.4
+    Can : 1
+    Cat : 1.6
+    Cdn : 0
+    Cdt : 0
+    ww_l: 13.5556
+Line 7 damping set to 19486 Ns = 235.318 Pa-s, based on input of -0.4
+WRN D:\a\MoorDyn\MoorDyn\source\Line.cpp:504 moordyn::Line::initialize(): Catenary initial profile failed for Line 7, initalizing as linear 
+Initialized Line 7
+Finalizing ICs using dynamic relaxation (3X normal drag)
+Fairlead tensions converged
+Remaining error after 0 s = 0% on line 0
+No Waves or Currents, or set externally
