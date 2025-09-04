@@ -79,7 +79,8 @@ moordyn::MoorDyn* mdSystem;
  *
  */
 
-static int checkError(SimStruct* S) {
+static int checkError(SimStruct* S)
+{
     if (err > MOORDYN_SUCCESS) {
         ssPrintf("\n");
         strcpy(err_msg, "MoorDyn exited with error.");
@@ -90,7 +91,8 @@ static int checkError(SimStruct* S) {
     return 0;
 }
 
-static void getInputs(SimStruct* S, double* InputAry) {
+static void getInputs(SimStruct* S, double* InputAry)
+{
     int k;
     InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(S, 0);
     
@@ -99,7 +101,8 @@ static void getInputs(SimStruct* S, double* InputAry) {
     }
 }
 
-static void setOutputs(SimStruct* S, double* OutputAry) {
+static void setOutputs(SimStruct* S, double* OutputAry)
+{
     int k;
     double* y = ssGetOutputPortRealSignal(S, 0);
     
@@ -107,6 +110,8 @@ static void setOutputs(SimStruct* S, double* OutputAry) {
         y[k] = OutputAry[k];
     }
 }
+
+
 
 /*====================*
  * S-function methods *
@@ -121,8 +126,7 @@ static void mdlInitializeSizes(SimStruct* S)
 {
     static char ChannelNames[CHANNEL_LENGTH * +1];
     if (t == -1) {
-        ssSetNumSFcnParams(S, NUM_PARAM);  /* Number of expected parameters */
-        
+        ssSetNumSFcnParams(S, NUM_PARAM); /* Number of expected parameters */
         // Get parameters from user-inputted block parameters (should not change during simulation)
         ssSetSFcnParamTunable(S, PARAM_FILENAME, SS_PRM_NOT_TUNABLE);
         mxGetString(ssGetSFcnParam(S, PARAM_FILENAME), InputFileName, INTERFACE_STRING_LENGTH);
@@ -263,9 +267,11 @@ static void mdlStart(SimStruct* S)
         t = 0.0;
         
         // Calculate forces at t=0
-        //err = mdSystem->Step(x, xd, OutputAry, t, dt);
-        //if (checkError(S)) return;
-        //setOutputs(S, OutputAry);
+        double dtInitial = 0.0; // initial time step size is zero
+        err = mdSystem->Step(x, xd, OutputAry, t, dtInitial);
+        
+        if (checkError(S)) return;
+        setOutputs(S, OutputAry);
     }
 }
 #endif /*  MDL_START */
@@ -345,10 +351,10 @@ static void mdlTerminate(SimStruct* S)
 }
 
 
+
 /*=============================*
  * Required S-function trailer *
  *=============================*/
-
 #ifdef  MATLAB_MEX_FILE    /* Is this file being compiled as a MEX-file? */
 #include "simulink.c"      /* MEX-file interface mechanism */
 #else

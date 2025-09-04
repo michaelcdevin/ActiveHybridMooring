@@ -79,7 +79,8 @@ moordyn::MoorDyn* mdSystem;
  *
  */
 
-static int checkError(SimStruct* S) {
+static int checkError(SimStruct* S)
+{
     if (err > MOORDYN_SUCCESS) {
         ssPrintf("\n");
         strcpy(err_msg, "MoorDyn exited with error.");
@@ -90,7 +91,8 @@ static int checkError(SimStruct* S) {
     return 0;
 }
 
-static void getInputs(SimStruct* S, double* InputAry) {
+static void getInputs(SimStruct* S, double* InputAry)
+{
     int k;
     InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(S, 0);
     
@@ -99,7 +101,8 @@ static void getInputs(SimStruct* S, double* InputAry) {
     }
 }
 
-static void setOutputs(SimStruct* S, double* OutputAry) {
+static void setOutputs(SimStruct* S, double* OutputAry)
+{
     int k;
     double* y = ssGetOutputPortRealSignal(S, 0);
     
@@ -107,6 +110,8 @@ static void setOutputs(SimStruct* S, double* OutputAry) {
         y[k] = OutputAry[k];
     }
 }
+
+
 
 /*====================*
  * S-function methods *
@@ -135,8 +140,7 @@ static void mdlInitializeSizes(SimStruct* S)
         
         // Initialize mooring system
         mdSystem = new moordyn::MoorDyn(InputFileName);
-        if (checkError(S))
-            return;
+        if (checkError(S)) return;
         
         // MCD: I don't think I need this, but still not entirely sure TODO
         // set DT in the Matlab workspace (necessary for Simulink block solver options)
@@ -147,20 +151,18 @@ static void mdlInitializeSizes(SimStruct* S)
         
         ssSetNumContStates(S, 0);
         ssSetNumDiscStates(S, 0);
-        if (!ssSetNumInputPorts(S, 1))
-            return;
+        if (!ssSetNumInputPorts(S, 1)) return;
         ssSetInputPortWidth(S, 0, NumInputs);
         // ssSetInputPortRequiredContiguous(S, 0, true); /*direct input signal access*/
         
         /*
-         * Set direct feedthrough flag (1=yes, 0=no).
-         * A port has direct feedthrough if the input is used in either
-         * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
-         */
+        * Set direct feedthrough flag (1=yes, 0=no).
+        * A port has direct feedthrough if the input is used in either
+        * the mdlOutputs or mdlGetTimeOfNextVarHit functions.
+        */
         ssSetInputPortDirectFeedThrough(S, 0, 0); // no direct feedthrough because we're just putting everything in one update routine (acting like a discrete system)
         
-        if (!ssSetNumOutputPorts(S, 1))
-            return;
+        if (!ssSetNumOutputPorts(S, 1)) return;
         ssSetOutputPortWidth(S, 0, NumOutputs);
         
         ssSetNumSampleTimes(S, 1);
@@ -170,8 +172,7 @@ static void mdlInitializeSizes(SimStruct* S)
         ssSetNumModes(S, 0);
         ssSetNumNonsampledZCs(S, 0);
         
-        if (!ssSetNumDWork(S, 2))
-            return;
+        if (!ssSetNumDWork(S, 2)) return;
         
         ssSetDWorkWidth(S, WORKARY_OUTPUT, ssGetOutputPortWidth(S, 0));
         ssSetDWorkDataType(S, WORKARY_OUTPUT, SS_DOUBLE); /* use SS_DOUBLE if needed */
@@ -180,7 +181,7 @@ static void mdlInitializeSizes(SimStruct* S)
         ssSetDWorkDataType(S, WORKARY_INPUT, SS_DOUBLE);
         
         /* Specify the operating point save/restore compliance to be same as a
-         * built-in block */
+        * built-in block */
         ssSetOperatingPointCompliance(S, USE_DEFAULT_OPERATING_POINT);
         
         ssSetRuntimeThreadSafetyCompliance(S, RUNTIME_THREAD_SAFETY_COMPLIANCE_TRUE);
@@ -273,10 +274,11 @@ static void mdlStart(SimStruct* S)
         // Setup for time series simulation
         int err = mdSystem->Init(x, xd);
         if (checkError(S)) return;
-        t = 0;
+        t = 0.0;
         
         // Calculate forces at t=0
-        err = mdSystem->Step(x, xd, OutputAry, t, dt);
+        double dtInitial = 0.0; // initial time step size is zero
+        err = mdSystem->Step(x, xd, OutputAry, t, dtInitial);
         
         if (checkError(S)) return;
         setOutputs(S, OutputAry);
@@ -359,10 +361,10 @@ static void mdlTerminate(SimStruct* S)
 }
 
 
+
 /*=============================*
  * Required S-function trailer *
  *=============================*/
-
 #ifdef  MATLAB_MEX_FILE    /* Is this file being compiled as a MEX-file? */
 #include "simulink.c"      /* MEX-file interface mechanism */
 #else

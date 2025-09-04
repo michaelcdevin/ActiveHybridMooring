@@ -38,7 +38,7 @@
 #define WORKARY_OUTPUT 0
 #define WORKARY_INPUT 1
 
-const int ndof = 18;  // (3 mooring lines) * (6 dof)
+const int ndof = 18;  // VS2022 requires this to be const (3 mooring lines) * (6 dof)
 static double dt = 0;
 static double TMax = 0;
 static int NumInputs = 36;
@@ -243,6 +243,9 @@ static void mdlStart(SimStruct* S)
         
         // get general system definitions
         //ndof = mdSystem->NCoupledDOF();
+        auto points = mdSystem->GetPoints();
+        auto lines = mdSystem->GetLines();
+        int num_lines = lines.size();
         double x[ndof], xd[ndof];
         
         // initial positions -- this ideally would be read from the input file TODO

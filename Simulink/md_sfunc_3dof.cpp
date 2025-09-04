@@ -38,7 +38,7 @@
 #define WORKARY_OUTPUT 0
 #define WORKARY_INPUT 1
 
-const int ndof = 9;   // (3 mooring lines) * (3 dof)
+const int ndof = 9;   // VS2022 requires this to be const (3 mooring lines) * (3 dof)
 static double dt = 0;
 static double TMax = 0;
 static int NumInputs = 18;
