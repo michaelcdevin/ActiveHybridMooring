@@ -29,9 +29,9 @@ ID  LineType  AttachA   AttachB  UnstrLen  NumSegs  Outputs
 4.0      CdScaleIC - factor by which to scale drag coefficients during dynamic relaxation (-)
 0.001     threshIC  - threshold for IC convergence (-)                                          
 ------------------------ OUTPUTS --------------------------------------------
-FairTen1                                            
-FairTen2                                            
-FairTen3
+LINE1N1FX LINE1N1FY LINE1N1FZ
+LINE2N1FX LINE2N1FY LINE2N1FZ
+LINE3N1FX LINE3N1FY LINE3N1FZ
 LINE1N1PX LINE1N1PY LINE1N1PZ
 LINE2N1PX LINE2N1PY LINE2N1PZ
 LINE3N1PX LINE3N1PY LINE3N1PZ
